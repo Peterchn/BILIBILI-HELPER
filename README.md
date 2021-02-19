@@ -35,10 +35,10 @@ BILIBILI-HELPER
 * [x] 大会员月底使用快到期的 B币券，给自己充电，一点也不会浪费哦，默认开启。*【已支持给指定UP充电】*
 * [x] 大会员月初 1 号自动领取每月 5 张 B 币券和福利。
 * [x] 每日哔哩哔哩直播自动签到，领取签到奖励。*【直播你可以不看，但是奖励咱们一定要领】*
-* [x] 通过server酱推送执行结果到微信。
 * [x] Linux用户支持自定义配置了。
 * [x] 投币策略更新可配置投币喜好。*【可配置优先给关注的up投币】*
 * [x] 自动送出即将过期的礼物。 *【默认开启，未更新到新版本的用户默认关闭】*
+* [x] 支持推送执行结果到微信，钉钉，飞书等
 	  
 [点此查看更新日志][2]
 
@@ -84,12 +84,12 @@ BILIBILI-HELPER
 
 3. **点击项目 Settings -\> Secrets -\> New Secrets 添加以下 3 个 Secrets，其中server酱微信推送的sckey可参阅[微信订阅通知][25]**
 
-| Name          | Value               |
-| ------------- | ------------------- |
-| DEDEUSERID    | 从 Cookie 中获取    |
-| SESSDATA      | 从 Cookie 中获取    |
-| BILI\_JCT     | 从 Cookie 中获取    |
-| SERVERPUSHKEY | server酱推送的sckey |
+| Name          | Value                                |
+| ------------- | ------------------------------------ |
+| DEDEUSERID    | 从 Cookie 中获取                     |
+| SESSDATA      | 从 Cookie 中获取                     |
+| BILI\_JCT     | 从 Cookie 中获取                     |
+| SERVERPUSHKEY | server酱推送的sckey（兼容Turbo版本） |
 
 
 ![图示][image-2]
@@ -110,8 +110,7 @@ BILIBILI-HELPER
 ```
 
 **
-由于[issues/313](https://github.com/JunzhouLiu/BILIBILI-HELPER/issues/313)中反馈接收到了B站的警告，所以跳过每日任务选项默认开启(也就是默认不执行每日任务)，如需关闭，请将`src/main/resources/config.json`中的`skipDailyTask`值改为`false`
-,**
+由于[issues/313](https://github.com/JunzhouLiu/BILIBILI-HELPER/issues/313)中反馈接收到了B站的警告，所以跳过每日任务选项默认开启(也就是默认不执行每日任务)，如需关闭，请将`src/main/resources/config.json`中的`skipDailyTask`值改为`false`**
 
 ```patch
 {
@@ -257,17 +256,29 @@ userAgent可选参数列表
 
 *投币数量代码做了处理，如果本日投币不能获得经验了，则不会投币，每天只投能获得经验的硬币。假设你设置每日投币 3 个，早上 7 点你自己投了 2 个硬币，则十点半时，程序只会投 1 个）*
 
-
 ## 微信订阅通知
 
 ### 订阅执行结果
 
-1. 前往 [sc.ftqq.com][33] 点击登入，创建账号（建议使用 GitHub 登录）。
-2. 点击点[发送消息][34] ，生成一个 Key。将其增加到 Github Secrets 中，变量名为 `SERVERPUSHKEY`
-3. [绑定微信账号][35] ，开启微信推送。
-![图示][image-4]
+**旧版推送渠道[sc.ftqq.com][33]即将与4月底下线，请前往[sct.ftqq.com][51]生成`Turbo`版本的`Key`，注意，申请Turbo版Key后请配置消息通道，如果想沿用以前的推送方式，选择方糖服务号即可**
+。
+
+目前Turbo版本的消息通道支持以下渠道
+
+- 企业微信应用消息
+- Android，
+- Bark iOS，
+- 企业微信群机器人
+- 钉钉群机器人
+- 飞书群机器人
+- 自定义微信测试号
+- 方糖服务号
+
+1. 前往 [sct.ftqq.com][51] 点击登入，创建账号。
+2. 点击点[SendKey][34] ，生成一个 Key。将其增加到 Github Secrets 中，变量名为 `SERVERPUSHKEY`
+3. [配置消息通道][52] ，选择方糖服务号，保存即可。
 4. 推送效果展示
-![图示][image-5]
+   ![图示][image-5]
 
 ## Telegram订阅通知
 
@@ -384,22 +395,41 @@ userAgent可选参数列表
 [38]:	https://github.com/apps/pull
 [39]:	https://github.com/JunzhouLiu/BILIBILI-HELPER/issues/4
 [40]:	https://github.com/JunzhouLiu/BILIBILI-HELPER
-[41]:	https://github.com/JunzhouLiu/BILIBILI-HELPER/blob/main/LICENSE
-[42]:	https://github.com/SocialSisterYi/bilibili-API-collect
-[43]:	https://github.com/happy888888/BiliExp
-[44]:	https://github.com/SuperNG6/docker-bilibili-helper
-[45]:	https://hub.docker.com/r/superng6/bilibili-helper
-[46]:	https://github.com/KurenaiRyu/bilibili-helper-runer
-[47]:	https://github.com/yangyang0507/k8s-bilibili-helper
-[48]:	https://www.jetbrains.com/?from=BILIBILI-HELPER
-[49]:	https://app.fossa.com/projects/git%2Bgithub.com%2FJunzhouLiu%2FBILIBILI-HELPER?ref=badge_large
-[50]:	https://starchart.cc/JunzhouLiu/BILIBILI-HELPER
 
-[image-1]:	docs/IMG/20201012001307.png
-[image-2]:	docs/IMG/20201013210000.png
-[image-3]:	docs/IMG/workflow_dispatch.png
-[image-4]:	docs/IMG/serverpush.png
-[image-5]:	docs/IMG/wechatMsgPush.png
-[image-6]:	docs/IMG/jetbrains.svg
-[image-7]:	https://app.fossa.com/api/projects/git%2Bgithub.com%2FJunzhouLiu%2FBILIBILI-HELPER.svg?type=large
-[image-8]:	https://starchart.cc/JunzhouLiu/BILIBILI-HELPER.svg
+[41]:    https://github.com/JunzhouLiu/BILIBILI-HELPER/blob/main/LICENSE
+
+[42]:    https://github.com/SocialSisterYi/bilibili-API-collect
+
+[43]:    https://github.com/happy888888/BiliExp
+
+[44]:    https://github.com/SuperNG6/docker-bilibili-helper
+
+[45]:    https://hub.docker.com/r/superng6/bilibili-helper
+
+[46]:    https://github.com/KurenaiRyu/bilibili-helper-runer
+
+[47]:    https://github.com/yangyang0507/k8s-bilibili-helper
+
+[48]:    https://www.jetbrains.com/?from=BILIBILI-HELPER
+
+[49]:    https://app.fossa.com/projects/git%2Bgithub.com%2FJunzhouLiu%2FBILIBILI-HELPER?ref=badge_large
+
+[50]:    https://starchart.cc/JunzhouLiu/BILIBILI-HELPER
+
+[51]: https://sct.ftqq.com/sendkey
+
+[52]: https://sct.ftqq.com/forward
+
+[image-1]:    docs/IMG/20201012001307.png
+
+[image-2]:    docs/IMG/20201013210000.png
+
+[image-3]:    docs/IMG/workflow_dispatch.png
+
+[image-5]:    docs/IMG/wechatMsgPush.png
+
+[image-6]:    docs/IMG/jetbrains.svg
+
+[image-7]:    https://app.fossa.com/api/projects/git%2Bgithub.com%2FJunzhouLiu%2FBILIBILI-HELPER.svg?type=large
+
+[image-8]:    https://starchart.cc/JunzhouLiu/BILIBILI-HELPER.svg
